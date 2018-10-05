@@ -51,8 +51,13 @@ public class Projeto {
 	}
 
 	public void setResponsavelOcorrencia(Funcionario func, Ocorrencia oc){
-		oc.setResponsavel(func);
-		func.setComoResponsavelOcorrencia(oc);
+		if(func.getQtdadeOcorrenciasResponsavel()<10){
+			oc.setResponsavel(func);
+			func.setComoResponsavelOcorrencia(oc);
+		} else{
+			throw new RuntimeException("Funcionário já é responsavel por 10 ocorrencias");
+		}
 	}
+	
 	
 }
