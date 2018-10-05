@@ -22,7 +22,15 @@ public class Empresa {
 	public String getNome() {
 		return nome;
 	}
+	
+	public List<Funcionario> getFuncionarios(){
+		return funcionarios;
+	}
 
+	public List<Projeto> getProjetos(){
+		return projetos;
+	}
+	
 	public void contrataFuncionario(Funcionario funcJoao) {
 		funcionarios.add(funcJoao);
 	}

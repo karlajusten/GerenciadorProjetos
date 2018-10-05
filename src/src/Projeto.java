@@ -21,6 +21,10 @@ public class Projeto {
 	public String getNome() {
 		return nome;
 	}
+	
+	public List<Ocorrencia> getOcorrencias(){
+		return ocorrencias;
+	}
 
 	public void criaOcorrencia(String nome) {
 		if(!existeOcorrenciaComNome(nome)){

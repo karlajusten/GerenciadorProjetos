@@ -10,16 +10,29 @@ public class TesteGerenciadorOcorrencias {
 	public void criarEmpresaPetrobras() throws Exception {
 		Empresa empresa = new Empresa("Petrobras");
 		assertEquals("Petrobras", empresa.getNome());
+		assertEquals(0, empresa.getFuncionarios().size());
 	}
 	
 	@Test (expected = RuntimeException.class)
 	public void criarEmpresaSemNome() throws Exception {
-		Empresa empresa = new Empresa("");
+		new Empresa("");
+	}
+	
+	@Test 
+	public void EmpresaPetrobrasIniciaSemFuncionarios() throws Exception {
+		Empresa empresa = new Empresa("Petrobras");
+		assertEquals(0, empresa.getFuncionarios().size());
+	}
+	
+	@Test 
+	public void EmpresaPetrobrasIniciaSemProejtos() throws Exception {
+		Empresa empresa = new Empresa("Petrobras");
+		assertEquals(0, empresa.getProjetos().size());
 	}
 	
 	@Test (expected = RuntimeException.class)
 	public void criarEmpresNomeNull() throws Exception {
-		Empresa empresa = new Empresa(null);
+		new Empresa(null);
 	}
 	
 	@Test
@@ -30,12 +43,18 @@ public class TesteGerenciadorOcorrencias {
 	
 	@Test (expected = RuntimeException.class)
 	public void criarFuncionarioSemNome() throws Exception {
-		Funcionario funcJoao = new Funcionario("");
+		new Funcionario("");
 	}
 	
 	@Test (expected = RuntimeException.class)
 	public void criarFuncionarioComNomeNull() throws Exception {
-		Funcionario funcJoao = new Funcionario(null);
+		new Funcionario(null);
+	}
+	
+	@Test
+	public void FuncionarioNovoNaoTemOcorrencias() throws Exception {
+		Funcionario joao = new Funcionario("João da Silva");
+		assertEquals(0, joao.getQtdadeOcorrenciasResponsavel());
 	}
 	
 	@Test
@@ -65,7 +84,13 @@ public class TesteGerenciadorOcorrencias {
 	
 	@Test (expected = RuntimeException.class)
 	public void CriaProjetoSemNome() throws Exception {
-		Projeto projetoPreSal = new Projeto("");
+		new Projeto("");
+	}
+	
+	@Test
+	public void ProjetoPreSalNovoNaoTemOcorrencias() throws Exception {
+		Projeto projetoPreSal = new Projeto("Pré-Sal");
+		assertEquals(0, projetoPreSal.getOcorrencias().size());
 	}
 	
 	@Test
@@ -116,29 +141,6 @@ public class TesteGerenciadorOcorrencias {
 	}
 	
 	@Test
-	public void ChecarOcorrenciaNaoConcluida() throws Exception {
-		Empresa empresa = new Empresa("Petrobras");
-		Projeto projetoPreSal = new Projeto("Pré-Sal");
-		empresa.criarProjeto(projetoPreSal);
-		projetoPreSal.criaOcorrencia("Problema 1 no Pré-Sal");
-		Ocorrencia ocorrencia = projetoPreSal.getOcorrenciaByName("Problema 1 no Pré-Sal");
-		ocorrencia.setResponsavel(new Funcionario("João da Silva"));
-		assertEquals(false, ocorrencia.estaConcluido());
-	}
-	
-	@Test
-	public void ChecarOcorrenciaConcluida() throws Exception {
-		Empresa empresa = new Empresa("Petrobras");
-		Projeto projetoPreSal = new Projeto("Pré-Sal");
-		empresa.criarProjeto(projetoPreSal);
-		projetoPreSal.criaOcorrencia("Problema 1 no Pré-Sal");
-		Ocorrencia ocorrencia = projetoPreSal.getOcorrenciaByName("Problema 1 no Pré-Sal");
-		ocorrencia.setResponsavel(new Funcionario("João da Silva"));
-		ocorrencia.setConcluido(true);
-		assertEquals(true, ocorrencia.estaConcluido());
-	}
-	
-	@Test
 	public void FuncionarioResponsavelPorUmaOcorrencia() throws Exception {
 		Empresa empresa = new Empresa("Petrobras");
 		Projeto projetoPreSal = new Projeto("Pré-Sal");
@@ -179,5 +181,30 @@ public class TesteGerenciadorOcorrencias {
 		projetoPreSal.setResponsavelOcorrencia(joao, projetoPreSal.getOcorrenciaByName("Problema 10 no Pré-Sal"));
 		projetoPreSal.criaOcorrencia("Problema 111 no Pré-Sal");
 		projetoPreSal.setResponsavelOcorrencia(joao, projetoPreSal.getOcorrenciaByName("Problema 11 no Pré-Sal"));
+	}
+	
+	
+	
+	@Test
+	public void ChecarOcorrenciaNaoConcluida() throws Exception {
+		Empresa empresa = new Empresa("Petrobras");
+		Projeto projetoPreSal = new Projeto("Pré-Sal");
+		empresa.criarProjeto(projetoPreSal);
+		projetoPreSal.criaOcorrencia("Problema 1 no Pré-Sal");
+		Ocorrencia ocorrencia = projetoPreSal.getOcorrenciaByName("Problema 1 no Pré-Sal");
+		ocorrencia.setResponsavel(new Funcionario("João da Silva"));
+		assertEquals(false, ocorrencia.estaConcluido());
+	}
+	
+	@Test
+	public void ChecarOcorrenciaConcluida() throws Exception {
+		Empresa empresa = new Empresa("Petrobras");
+		Projeto projetoPreSal = new Projeto("Pré-Sal");
+		empresa.criarProjeto(projetoPreSal);
+		projetoPreSal.criaOcorrencia("Problema 1 no Pré-Sal");
+		Ocorrencia ocorrencia = projetoPreSal.getOcorrenciaByName("Problema 1 no Pré-Sal");
+		ocorrencia.setResponsavel(new Funcionario("João da Silva"));
+		ocorrencia.setConcluido(true);
+		assertEquals(true, ocorrencia.estaConcluido());
 	}
 }
